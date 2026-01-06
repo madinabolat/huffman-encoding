@@ -21,6 +21,7 @@ public class FileReader {
             System.out.println(e.getMessage());
         }
         System.out.println(s);
+        //new lines - just get appended. 
     }
 
 }
