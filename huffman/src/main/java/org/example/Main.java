@@ -2,6 +2,7 @@ package org.example;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
@@ -26,8 +27,15 @@ public class Main {
 //            System.out.println(e.getMessage());
 //        }
 //        System.out.println(count);
+//
+//        FileReader fileReader = new FileReader();
+//        fileReader.readFile();
 
-        FileReader fileReader = new FileReader();
-        fileReader.readFile();
+
+        String s = "ABRACADABRAa n";
+        StringOperations sops = new StringOperations();
+        HashMap<Character, Integer> charCount = sops.countChars(s);
+        System.out.println(charCount);
+
     }
 }
