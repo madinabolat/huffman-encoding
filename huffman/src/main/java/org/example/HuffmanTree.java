@@ -1,14 +1,21 @@
 package org.example;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
 public class HuffmanTree {
+    String s;
     CharFreqNode root;
 
-    public void buildTree(String s){
+    public HuffmanTree(String s){
+        this.s = s;
+        buildTree();
+    }
+
+    public void buildTree(){
         StringCharOperations stringCharOperations = new StringCharOperations();
-        PriorityQueue<CharFreqNode> charFreqsQueued = stringCharOperations.charFreqsQueued(s);
+        PriorityQueue<CharFreqNode> charFreqsQueued = stringCharOperations.charFreqsQueued(this.s);
 
         while (charFreqsQueued.size()>1){
             CharFreqNode childNode1 = charFreqsQueued.poll();
@@ -18,7 +25,7 @@ public class HuffmanTree {
             parentNode.left = childNode2;
             charFreqsQueued.add(parentNode);
         }
-        root = charFreqsQueued.peek();
+        this.root = charFreqsQueued.peek();
     }
 
     public void preOrderTraverse(CharFreqNode node){
@@ -30,25 +37,41 @@ public class HuffmanTree {
         preOrderTraverse(node.right);
     }
 
-    public String encode(char c, CharFreqNode node){
-        if (node.left == null && node.right == null){
+    public String encodeChar(char c, CharFreqNode node){
+        if (node.ch == c && node.left == null && node.right == null){
             return "";
         }
 
-        //fix here: 
-        if (node.left.ch == c){
-            return encode(c, node)+'0';
-        } else {
-            return encode(c, node)+'1';
-        }
-    }
-
-    public void encodeChars(String s){
-        StringCharOperations stringCharOperations = new StringCharOperations();
-        HashSet<Character> uniqueChars = stringCharOperations.uniqueChars(s);
-        for (char c : uniqueChars){
-
+        if (node.left != null){
+            String result = encodeChar(c, node.left);
+            if (result != null){
+                return result+"0";
+            }
         }
 
+        if (node.right != null){
+            String result = encodeChar(c, node.right);
+            if (result != null){
+                return result+"1";
+            }
+        }
+        return null;
     }
+
+    public HashMap<Character, String> buildEncodingDict(){
+        HashMap<Character, String> encodingDict = new HashMap<>();
+        for (char c : this.s.toCharArray()){
+            encodingDict.put(c, encodeChar(c, this.root));
+        }
+        return encodingDict;
+    }
+
+    public String encodeString(){
+        String encodedString = new String();
+        for (char c : this.s.toCharArray()){
+            encodedString += encodeChar(c, this.root);
+        }
+        return encodedString;
+    }
+
 }
