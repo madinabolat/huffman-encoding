@@ -19,12 +19,9 @@ public class FileOperator {
     }
 
     public void writeToFile(String s) throws IOException {
-        //create new file
-        //write to file
-        //return path to file?
         File file = new File("../output.txt");
         FileWriter fileWriter = new FileWriter(file);
-        fileWriter.write(s);
+        fileWriter.write(s);//not writing
 
     }
 
