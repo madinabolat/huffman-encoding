@@ -1,11 +1,12 @@
 package org.example;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
 //        String s = "ABRACADABRA";
 //        HuffmanTree ht = new HuffmanTree(s);
 //        ht.preOrderTraverse(ht.root);
@@ -26,5 +27,7 @@ public class Main {
         System.out.println(encodingDict);
         System.out.println(ht.encodeString(s));
         System.out.println(ht.decodeString(ht.encodeString(s)));
+
+        fop.writeToFile(ht.encodeString(s));
     }
 }

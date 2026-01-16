@@ -2,6 +2,8 @@ package org.example;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class FileOperator {
@@ -16,10 +18,13 @@ public class FileOperator {
         return text;
     }
 
-    public void writeToFile(String s) {
+    public void writeToFile(String s) throws IOException {
         //create new file
         //write to file
-        //return path to file? 
+        //return path to file?
+        File file = new File("../output.txt");
+        FileWriter fileWriter = new FileWriter(file);
+        fileWriter.write(s);
 
     }
 
