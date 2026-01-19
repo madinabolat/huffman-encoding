@@ -22,6 +22,7 @@ public class FileOperator {
         File file = new File("../output.txt");
         FileWriter fileWriter = new FileWriter(file);
         fileWriter.write(s);//not writing
+        fileWriter.close();
 
     }
 
