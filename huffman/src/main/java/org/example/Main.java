@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.PriorityQueue;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 //        String s = "ABRACADABRA";
 //        HuffmanTree ht = new HuffmanTree(s);
 //        ht.preOrderTraverse(ht.root);
@@ -18,16 +18,12 @@ public class Main {
 
         String path = "../input.txt";
         FileOperator fop = new FileOperator();
-        String s = fop.readFromFile(path);
-        System.out.println(s);
-                HuffmanTree ht = new HuffmanTree(s);
-        ht.preOrderTraverse(ht.root);
-        //System.out.println(ht.encodeChar('C', ht.root));
-        HashMap<Character, String> encodingDict = ht.buildEncodingDict(s);
-        System.out.println(encodingDict);
-        System.out.println(ht.encodeString(s));
-        System.out.println(ht.decodeString(ht.encodeString(s)));
+        String inputText = fop.readFromFile(path);
+        HuffmanTree ht = new HuffmanTree(inputText);
+        fop.writeToFile(ht.encodeString(inputText), "../encoded-output.txt");
 
-        fop.writeToFile(ht.encodeString(s));
+        String encodedText = fop.readFromFile("../encoded-output.txt");
+        fop.writeToFile(ht.decodeString(encodedText), "../decoded-output.txt");
+
     }
 }
