@@ -25,5 +25,19 @@ public class Main {
         String encodedText = fop.readFromFile("../encoded-output.txt");
         fop.writeToFile(ht.decodeString(encodedText), "../decoded-output.txt");
 
+
+        //convert binary string into bytes
+        String s = ht.encodeString(inputText);
+        System.out.println(s);
+
+        byte[] byteArray = new byte[s.length()/8+1];
+        //take each 8 bits and turn into byte
+        //00111100-00111100 -> byte 00111100, byte 00111100
+        //byte.parseByte(s,2) turns a string representation of a binary number into byte
+        //it is signed.
+       //take first 8 elements of s, turn into byte. take next, turn into byte.
+
+
+
     }
 }
