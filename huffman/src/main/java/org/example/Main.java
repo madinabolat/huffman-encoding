@@ -2,6 +2,7 @@ package org.example;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
@@ -30,6 +31,9 @@ public class Main {
         String s = ht.encodeString(inputText);
         System.out.println(s);
 
+
+        ArrayList<Byte> bytesList = new ArrayList<>();
+
         byte[] byteArray = new byte[s.length()/8+1];
         //take each 8 bits and turn into byte
         //00111100-00111100 -> byte 00111100, byte 00111100
@@ -46,6 +50,17 @@ public class Main {
         s2.toCharArray();
         byte s2b = Byte.parseByte(s1, 2);
         System.out.println(s1b);
+
+
+
+
+
+        for (int i = 0; i < s.length()-7; i+=8){
+            System.out.println(s.substring(i,i+7));
+            //add padding
+            
+        }
+
 
     }
 }
