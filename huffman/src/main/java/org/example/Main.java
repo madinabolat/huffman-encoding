@@ -38,6 +38,14 @@ public class Main {
        //take first 8 elements of s, turn into byte. take next, turn into byte.
 
 
+        String s1 = "00000100";
+        byte s1b = Byte.parseByte(s1, 2);
+        System.out.println(s1b);
+
+        String s2 = "000001001"; //9 chars - first 8 into byte, then take the 9th and pad and write to byte
+        s2.toCharArray();
+        byte s2b = Byte.parseByte(s1, 2);
+        System.out.println(s1b);
 
     }
 }
