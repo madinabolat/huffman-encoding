@@ -21,45 +21,13 @@ public class Main {
         FileOperator fop = new FileOperator();
         String inputText = fop.readFromFile(path);
         HuffmanTree ht = new HuffmanTree(inputText);
-        fop.writeToFile(ht.encodeString(inputText), "../encoded-output.txt");
-
-        String encodedText = fop.readFromFile("../encoded-output.txt");
-        fop.writeToFile(ht.decodeString(encodedText), "../decoded-output.txt");
-
-
-        //convert binary string into bytes
-        String s = ht.encodeString(inputText);
-        System.out.println(s);
+//        fop.writeToFile(ht.encodeString(inputText), "../encoded-output.txt");
+//
+//        String encodedText = fop.readFromFile("../encoded-output.txt");
+//        fop.writeToFile(ht.decodeString(encodedText), "../decoded-output.txt");
+          System.out.println(ht.encodeToBytes(ht.encodeString(inputText)));
 
 
-        ArrayList<Byte> bytesList = new ArrayList<>();
-
-        byte[] byteArray = new byte[s.length()/8+1];
-        //take each 8 bits and turn into byte
-        //00111100-00111100 -> byte 00111100, byte 00111100
-        //byte.parseByte(s,2) turns a string representation of a binary number into byte
-        //it is signed.
-       //take first 8 elements of s, turn into byte. take next, turn into byte.
-
-
-        String s1 = "00000100";
-        byte s1b = Byte.parseByte(s1, 2);
-        System.out.println(s1b);
-
-        String s2 = "000001001"; //9 chars - first 8 into byte, then take the 9th and pad and write to byte
-        s2.toCharArray();
-        byte s2b = Byte.parseByte(s1, 2);
-        System.out.println(s1b);
-
-
-
-
-
-        for (int i = 0; i < s.length()-7; i+=8){
-            System.out.println(s.substring(i,i+7));
-            //add padding
-            
-        }
 
 
     }

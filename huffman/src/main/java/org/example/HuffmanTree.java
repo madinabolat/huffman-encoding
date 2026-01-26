@@ -1,5 +1,7 @@
 package org.example;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.PriorityQueue;
@@ -86,7 +88,6 @@ public class HuffmanTree {
                 currentNode = root;
             }
         }
-
         return decodedString;
     }
 
@@ -94,8 +95,27 @@ public class HuffmanTree {
         if (node.ch == c && node.left == null && node.right == null){
             return String.valueOf(c);
         }
-
         return null;
     }
+
+
+    public ArrayList<Byte> encodeToBytes(String binaryString){
+        int numZerosToAppend = 8 - binaryString.length() % 8;
+        if (numZerosToAppend != 0){
+            for (int i = 0; i < numZerosToAppend; i++){
+                binaryString+="0";
+            }
+        }
+        ArrayList<Byte> bytesList = new ArrayList<>();
+        for (int i = 0; i < binaryString.length()-7; i+=8){
+            byte b = (byte) Integer.parseInt(binaryString.substring(i,i+8), 2);
+            //Byte.parseByte(binaryString.substring(i,i+8), 2) wont work when the substring is >128. byte will throw an error.
+            //when we use Integer.parseInt - java forces it to turn into byte (uses two's complement)
+            bytesList.add(b);
+        }
+        return bytesList;
+    }
+
+
 
 }
