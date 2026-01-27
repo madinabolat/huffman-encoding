@@ -1,9 +1,7 @@
 package org.example;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FileOperator {
@@ -34,6 +32,17 @@ public class FileOperator {
         }
         catch(IOException e){
             System.out.println(e.getMessage());
+        }
+    }
+
+
+    public void writeToByteFile(ArrayList<Byte> bytesList){
+        try (FileOutputStream fos = new FileOutputStream("encoded.hf")){
+            //expects array of bytes. change the original method - to produce array of bytes and change input in this method
+            fos.write(bytesList);
+            System.out.println("Encoded bytes were written to file successfully");
+        } catch (IOException e){
+            System.out.println("Error: " + e.getMessage());
         }
     }
 }

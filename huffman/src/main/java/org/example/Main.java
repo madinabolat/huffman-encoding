@@ -26,6 +26,7 @@ public class Main {
 //        String encodedText = fop.readFromFile("../encoded-output.txt");
 //        fop.writeToFile(ht.decodeString(encodedText), "../decoded-output.txt");
           System.out.println(ht.encodeToBytes(ht.encodeString(inputText)));
+          fop.writeToByteFile(ht.encodeToBytes(ht.encodeString(inputText)));
 
 
 
