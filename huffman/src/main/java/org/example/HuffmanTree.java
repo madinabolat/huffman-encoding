@@ -123,13 +123,15 @@ public class HuffmanTree {
     public String convertBytesToBinaryString(byte[] bytesArray){
         int numZerosAppended = bytesArray[0];
         String s = new String();
-        for (byte b : bytesArray){
-            String s1 =Integer.toBinaryString(b & 0xFF);
+        for (int i = 1; i<bytesArray.length; i++){
+            String s1 =Integer.toBinaryString(bytesArray[i] & 0xFF);
             while (s1.length()<8){
                 s1 = "0"+s1;
             }
             s += s1;
         }
+        //remove padded zeros
+        s = s.substring(0,s.length()-numZerosAppended);
         return s;
     }
 
