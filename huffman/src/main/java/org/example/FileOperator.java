@@ -1,6 +1,7 @@
 package org.example;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -36,13 +37,24 @@ public class FileOperator {
     }
 
 
-    public void writeToByteFile(ArrayList<Byte> bytesList){
-        try (FileOutputStream fos = new FileOutputStream("encoded.hf")){
+    public void writeToByteFile(byte[] bytesArray){
+        try (FileOutputStream fos = new FileOutputStream("../encoded.hf")){
             //expects array of bytes. change the original method - to produce array of bytes and change input in this method
-            fos.write(bytesList);
+            fos.write(bytesArray);
             System.out.println("Encoded bytes were written to file successfully");
         } catch (IOException e){
             System.out.println("Error: " + e.getMessage());
         }
+    }
+
+    public byte[] readByteFile(String path){
+        byte[] bytesArray = null;
+        try (FileInputStream file = new FileInputStream(path)){
+            bytesArray = file.readAllBytes();
+            System.out.println("Read bytes from encoded file successfully");
+        } catch (IOException e){
+            System.out.println("Error: " + e.getMessage());
+        }
+        return bytesArray;
     }
 }

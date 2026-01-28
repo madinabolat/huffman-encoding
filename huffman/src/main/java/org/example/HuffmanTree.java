@@ -99,23 +99,44 @@ public class HuffmanTree {
     }
 
 
-    public ArrayList<Byte> encodeToBytes(String binaryString){
+    public byte[] encodeToBytes(String binaryString){
         int numZerosToAppend = 8 - binaryString.length() % 8;
         if (numZerosToAppend != 0){
             for (int i = 0; i < numZerosToAppend; i++){
                 binaryString+="0";
             }
         }
-        ArrayList<Byte> bytesList = new ArrayList<>();
+        int n = binaryString.length() / 8 + 1; //extra cell to store the number of appended zeros
+        byte[] bytesArray = new byte[n];
+        bytesArray[0] = (byte) numZerosToAppend;
+        int k = 1;
         for (int i = 0; i < binaryString.length()-7; i+=8){
             byte b = (byte) Integer.parseInt(binaryString.substring(i,i+8), 2);
             //Byte.parseByte(binaryString.substring(i,i+8), 2) wont work when the substring is >128. byte will throw an error.
             //when we use Integer.parseInt - java forces it to turn into byte (uses two's complement)
-            bytesList.add(b);
+            bytesArray[k] = b;
+            k += 1;
         }
-        return bytesList;
+        return bytesArray;
     }
 
+    public String convertBytesToBinaryString(byte[] bytesArray){
+        int numZerosAppended = bytesArray[0];
+        String s = new String();
+        for (byte b : bytesArray){
+            String s1 =Integer.toBinaryString(b & 0xFF);
+            while (s1.length()<8){
+                s1 = "0"+s1;
+            }
+            s += s1;
+        }
+        return s;
+    }
+
+    public String decodeFromBytes(byte[] bytesArray){
+        String binaryString = convertBytesToBinaryString(bytesArray);
+        return decodeString(binaryString);
+    }
 
 
 }

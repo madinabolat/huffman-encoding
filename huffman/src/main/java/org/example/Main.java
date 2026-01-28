@@ -27,9 +27,20 @@ public class Main {
 //        fop.writeToFile(ht.decodeString(encodedText), "../decoded-output.txt");
           System.out.println(ht.encodeToBytes(ht.encodeString(inputText)));
           fop.writeToByteFile(ht.encodeToBytes(ht.encodeString(inputText)));
+          fop.readByteFile("../encoded.hf");
+          System.out.println(fop.readByteFile("../encoded.hf"));
 
 
+          String s = new String();
 
-
+          for (byte b : fop.readByteFile("../encoded.hf")){
+              String s1 =Integer.toBinaryString(b & 0xFF);
+              while (s1.length()<8){
+                  s1 = "0"+s1;
+              }
+              s += s1;
+          }
+        System.out.println(s);
+        System.out.println(ht.decodeString(s));
     }
 }
