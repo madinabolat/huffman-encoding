@@ -37,8 +37,8 @@ public class FileOperator {
     }
 
 
-    public void writeToByteFile(byte[] bytesArray){
-        try (FileOutputStream fos = new FileOutputStream("../encoded.hf")){
+    public void writeToByteFile(byte[] bytesArray, String outputPath){
+        try (FileOutputStream fos = new FileOutputStream(outputPath)){
             //expects array of bytes. change the original method - to produce array of bytes and change input in this method
             fos.write(bytesArray);
             System.out.println("Encoded bytes were written to file successfully");
