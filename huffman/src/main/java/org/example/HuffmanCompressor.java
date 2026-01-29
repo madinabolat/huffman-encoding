@@ -15,5 +15,7 @@ public class HuffmanCompressor {
         //we dont know that string yet
         //so i should have some kind of dict?
         fileOperator.writeToFile(huffmanTree.decodeFromBytes(fileOperator.readByteFile(inputPath)), outputPath);
+
+
     }
 }
