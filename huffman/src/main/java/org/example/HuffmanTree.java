@@ -9,14 +9,19 @@ import java.util.PriorityQueue;
 public class HuffmanTree {
     CharFreqNode root;
 
+    //build tree from the original string - used for encoding
     public HuffmanTree(String s){
-        buildTree(s);
-    }
-
-    public void buildTree(String s){
         StringCharOperations stringCharOperations = new StringCharOperations();
         PriorityQueue<CharFreqNode> charFreqsQueued = stringCharOperations.charFreqsQueued(s);
+        buildTree(charFreqsQueued);
+    }
 
+    //build tree from char frequency queue - used for decoding
+    public HuffmanTree(PriorityQueue<CharFreqNode> charFreqsQueued){
+        buildTree(charFreqsQueued);
+    }
+
+    public void buildTree(PriorityQueue<CharFreqNode> charFreqsQueued){
         while (charFreqsQueued.size()>1){
             CharFreqNode childNode1 = charFreqsQueued.poll();
             CharFreqNode childNode2 = charFreqsQueued.poll();
