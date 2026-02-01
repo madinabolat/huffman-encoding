@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.PriorityQueue;
+
 public class HuffmanCompressor {
     FileOperator fileOperator = new FileOperator();
     HuffmanTree huffmanTree;
@@ -11,11 +13,10 @@ public class HuffmanCompressor {
     }
 
     public void decompress(String inputPath, String outputPath){
-        //but huffman tree is built based on string
-        //we dont know that string yet
-        //so i should have some kind of dict?
+        //read char freqs from file
+        //rebuild charFreqs
+        PriorityQueue<CharFreqNode> charFreqsQueued = new PriorityQueue<>(); //update -> read from file
+        huffmanTree = new HuffmanTree(charFreqsQueued);
         fileOperator.writeToFile(huffmanTree.decodeFromBytes(fileOperator.readByteFile(inputPath)), outputPath);
-
-
     }
 }
