@@ -1,22 +1,40 @@
 package org.example;
 
+import java.nio.ByteBuffer;
+import java.util.HashMap;
 import java.util.PriorityQueue;
 
 public class HuffmanCompressor {
     FileOperator fileOperator = new FileOperator();
+    StringOperator stringOperator = new StringOperator();
     HuffmanTree huffmanTree;
 
     public void compress(String inputPath, String outputPath){
-        String originalText = fileOperator.readFromFile(inputPath);
+        String originalText = fileOperator.readTextFromFile(inputPath);
         huffmanTree = new HuffmanTree(originalText);
-        fileOperator.writeToByteFile(huffmanTree.encodeToBytes(huffmanTree.encodeString(originalText)), outputPath);
+        byte[] encodedBytes = huffmanTree.buildHuffmanFileBytes(originalText);
+        fileOperator.writeToByteFile(encodedBytes, outputPath);
     }
 
     public void decompress(String inputPath, String outputPath){
-        //read char freqs from file
-        //rebuild charFreqs
-        PriorityQueue<CharFreqNode> charFreqsQueued = new PriorityQueue<>(); //update -> read from file
+
+        byte[] byteArray = fileOperator.readByteFile(inputPath);
+        int numUniqueChars = ByteBuffer.wrap(byteArray,0,4).getInt();
+        HashMap<Character, Integer> charFreqsMap = new HashMap<>();
+        for (int i = 0; i < 5*numUniqueChars; i+=5){
+            char c = (char) ByteBuffer.wrap(byteArray,4+i,1).get();
+            int freq = ByteBuffer.wrap(byteArray,5+i,4).getInt();
+            charFreqsMap.put(c,freq);
+        }
+
+        PriorityQueue<CharFreqNode> charFreqsQueued = stringOperator.charFreqsQueued(charFreqsMap);
         huffmanTree = new HuffmanTree(charFreqsQueued);
-        fileOperator.writeToFile(huffmanTree.decodeFromBytes(fileOperator.readByteFile(inputPath)), outputPath);
+
+        int charFreqsArrayLength =  4 + numUniqueChars * 5;
+        int encodingArrayLength = byteArray.length-charFreqsArrayLength;
+        byte[] encodingBytes = new byte[encodingArrayLength];
+        System.arraycopy(byteArray,charFreqsArrayLength,encodingBytes,0,encodingArrayLength);
+        String decodedString = huffmanTree.decodeFromBytes(encodingBytes);
+        fileOperator.writeTextToFile(decodedString, outputPath);
     }
 }

@@ -1,13 +1,11 @@
 package org.example;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FileOperator {
 
-    public String readFromFile(String path){
+    public String readTextFromFile(String path){
         File file = new File(path);
         String text = new String();
         try {
@@ -21,7 +19,7 @@ public class FileOperator {
         return text;
     }
 
-    public void writeToFile(String s, String path) {
+    public void writeTextToFile(String s, String path) {
         File file = new File(path);
         try {
             FileWriter fileWriter = new FileWriter(file);

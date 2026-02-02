@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.PriorityQueue;
 
-public class StringCharOperations {
+public class StringOperator {
 
     public HashSet<Character> uniqueChars(String s){
         HashSet<Character> uniqueChars = new HashSet<>();
@@ -28,9 +28,7 @@ public class StringCharOperations {
         return charFreqsMap;
     }
 
-    public PriorityQueue<CharFreqNode> charFreqsQueued(String s){
-        HashMap<Character, Integer> charFreqsMap = charFreqsMap(s);
-
+    public PriorityQueue<CharFreqNode> charFreqsQueued(HashMap<Character, Integer> charFreqsMap){
         PriorityQueue<CharFreqNode> charFreqsQueued = new PriorityQueue<>();
 
         for (Map.Entry<Character, Integer> entry : charFreqsMap.entrySet()){

@@ -1,9 +1,8 @@
 package org.example;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import java.nio.ByteBuffer;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
 import java.util.PriorityQueue;
 
 public class HuffmanTree {
@@ -11,8 +10,9 @@ public class HuffmanTree {
 
     //build tree from the original string - used for encoding
     public HuffmanTree(String s){
-        StringCharOperations stringCharOperations = new StringCharOperations();
-        PriorityQueue<CharFreqNode> charFreqsQueued = stringCharOperations.charFreqsQueued(s);
+        StringOperator stringOperator = new StringOperator();
+        HashMap<Character, Integer> charFreqsMap = stringOperator.charFreqsMap(s);
+        PriorityQueue<CharFreqNode> charFreqsQueued = stringOperator.charFreqsQueued(charFreqsMap);
         buildTree(charFreqsQueued);
     }
 
@@ -104,7 +104,7 @@ public class HuffmanTree {
     }
 
 
-    public byte[] encodeToBytes(String binaryString){
+    public byte[] convertBinaryStringToBytes(String binaryString){
         int numZerosToAppend = 8 - binaryString.length() % 8;
         if (numZerosToAppend != 0){
             for (int i = 0; i < numZerosToAppend; i++){
@@ -125,6 +125,31 @@ public class HuffmanTree {
         return bytesArray;
     }
 
+    public byte[] convertCharFreqsToBytes(String s){
+        StringOperator sop = new StringOperator();
+        HashMap<Character, Integer> charFreqsMap = sop.charFreqsMap(s);
+        int numUniqueChars = charFreqsMap.size();
+        int n = 4 + numUniqueChars * 5; //byte array will contain 1) number of unique chars (int is 4 bytes)  2) char and its frequency value (char - 1 byte, frequency - int, so 4 bytes)
+        byte[] bytesArray = new byte[n];
+        byte[] numUniqueCharsBytes = ByteBuffer.allocate(4).putInt(numUniqueChars).array(); //integer is 4 bytes
+        System.arraycopy(numUniqueCharsBytes,0,bytesArray,0,4);
+        int i = 4;
+
+        for (Map.Entry<Character, Integer> entry : charFreqsMap.entrySet()){
+            char  key = entry.getKey();
+            int value = entry.getValue();
+
+            bytesArray[i] = (byte) key; //assume char is ASCII, so it will take 1 byte (ASCII chars are 1 byte, but overall chars are 2 bytes)
+
+            byte[] tempIntBytes = ByteBuffer.allocate(4).putInt(value).array(); //integer is 4 bytes
+            System.arraycopy(tempIntBytes,0,bytesArray,i+1,4);
+
+            i += 5;
+        }
+
+        return bytesArray;
+    }
+
     public String convertBytesToBinaryString(byte[] bytesArray){
         int numZerosAppended = bytesArray[0];
         String s = new String();
@@ -138,6 +163,25 @@ public class HuffmanTree {
         //remove padded zeros
         s = s.substring(0,s.length()-numZerosAppended);
         return s;
+    }
+
+    public byte[] buildHuffmanFileBytes(String s){
+        byte[] charFreqsBytes = convertCharFreqsToBytes(s);
+        int n = charFreqsBytes.length;
+        byte[] encodedStringBytes = convertBinaryStringToBytes(encodeString(s));
+        int m = encodedStringBytes.length;
+        byte[] finalByteArray = new byte[n+m];
+        System.arraycopy(charFreqsBytes,0,finalByteArray,0,n);
+        System.arraycopy(encodedStringBytes,0,finalByteArray,n,m);
+        return finalByteArray;
+        //finalByteArray structure:
+        // part 1: character frequencies:
+           //bytes 0-3: number of unique characters n
+           //byte 4+i: character c_i, i=0,.., n-1
+           //byte 5+i->8+i (4 bytes): number of occurrences of character c_i
+        //part 2: encoding
+           //first byte: number of padded zeros to the end of binary string
+           //the rest of bytes: encoded string
     }
 
     public String decodeFromBytes(byte[] bytesArray){
