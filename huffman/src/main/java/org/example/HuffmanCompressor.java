@@ -22,6 +22,7 @@ public class HuffmanCompressor {
         huffmanTree = new HuffmanTree(originalText);
         byte[] encodedBytes = huffmanTree.buildHuffmanFileBytes(originalText);
         fileOperator.writeToByteFile(encodedBytes, outputPath);
+        System.out.println("File encoded successfully. Encoded file: " + outputPath);
     }
 
     public void decompress(String inputPath, String outputPath){
@@ -50,5 +51,6 @@ public class HuffmanCompressor {
         System.arraycopy(byteArray,charFreqsArrayLength,encodingBytes,0,encodingArrayLength);
         String decodedString = huffmanTree.decodeFromBytes(encodingBytes);
         fileOperator.writeTextToFile(decodedString, outputPath);
+        System.out.println("File decoded successfully. Decoded file: " + outputPath);
     }
 }
