@@ -1,5 +1,7 @@
 package org.example;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.PriorityQueue;
@@ -10,15 +12,27 @@ public class HuffmanCompressor {
     HuffmanTree huffmanTree;
 
     public void compress(String inputPath, String outputPath){
-        String originalText = fileOperator.readTextFromFile(inputPath);
+        String originalText;
+        try {
+            originalText = fileOperator.readTextFromFile(inputPath);
+        } catch (FileNotFoundException e){
+            System.out.println("Error: file not found - " + inputPath);
+            return;
+        }
         huffmanTree = new HuffmanTree(originalText);
         byte[] encodedBytes = huffmanTree.buildHuffmanFileBytes(originalText);
         fileOperator.writeToByteFile(encodedBytes, outputPath);
     }
 
     public void decompress(String inputPath, String outputPath){
+        byte[] byteArray;
+        try {
+            byteArray = fileOperator.readByteFile(inputPath);
+        } catch (IOException e){
+            System.out.println("Error: file not found - " + inputPath);
+            return;
+        }
 
-        byte[] byteArray = fileOperator.readByteFile(inputPath);
         int numUniqueChars = ByteBuffer.wrap(byteArray,0,4).getInt();
         HashMap<Character, Integer> charFreqsMap = new HashMap<>();
         for (int i = 0; i < 5*numUniqueChars; i+=5){
