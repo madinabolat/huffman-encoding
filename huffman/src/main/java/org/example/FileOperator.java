@@ -12,7 +12,7 @@ public class FileOperator {
         while (scanner.hasNextLine()){
             text += scanner.nextLine() + "\n";
         }
-        return text;
+        return text.stripTrailing();
     }
 
     public void writeTextToFile(String s, String path) {
