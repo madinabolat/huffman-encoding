@@ -13,5 +13,8 @@ public class Main {
         } else {
             System.out.println("Enter valid function: compress or decompress");
         }
+
+        //ideas for improvement:
+        //refactor compress / decompress to return boolean instead of just console message
     }
 }
