@@ -12,7 +12,8 @@ A CLI tool using Huffman encoding to compress text files to reduce size.
 - Java 22
 
 ## USAGE
-Download ```huffman-1.0.jar``` from ```/target``` directory and run the following commands: 
+The JAR file is located in the ```/target``` directory. To use:
+
 ### Compression
 ```bash
 java -jar huffman-1.0.jar compress input.txt
